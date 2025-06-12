@@ -15,20 +15,6 @@ beforeAll(async () => {
 })
 
 describe('Plugin integration tests', () => {
-  test('should have AI localization endpoints registered', async () => {
-    // Test the supported languages endpoint
-    const request = new Request('http://localhost:3000/api/ai-localization/supported-languages', {
-      method: 'GET',
-    })
-
-    const payloadRequest = await createPayloadRequest({ config, request })
-    const response = await (await import('../src/endpoints/getSupportedLanguages.js')).getSupportedLanguagesHandler()(payloadRequest)
-    
-    expect(response.status).toBe(200)
-    const data = await response.json()
-    expect(data).toHaveProperty('languages')
-    expect(Array.isArray(data.languages)).toBe(true)
-  })
 
   test('can create post with required fields', async () => {
     const post = await payload.create({

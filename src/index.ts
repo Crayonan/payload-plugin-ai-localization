@@ -1,9 +1,9 @@
 import type { CollectionConfig, Config, Field } from 'payload'
 import { translateBulkHandler } from './endpoints/translateBulk.js'
 
-const AutoTranslateAllButton = 'ai-localization/client#AutoTranslateAllButton'
-const AiLocalizationProvider = 'ai-localization/client#AiLocalizationProvider'
-const CssInjector = 'ai-localization/client#CssInjector'
+const AutoTranslateAllButton = 'payload-plugin-ai-localization/client#AutoTranslateAllButton'
+const AiLocalizationProvider = 'payload-plugin-ai-localization/client#AiLocalizationProvider'
+const CssInjector = 'payload-plugin-ai-localization/client#CssInjector'
 
 export type AiLocalizationConfig = {
   /**
