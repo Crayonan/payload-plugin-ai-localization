@@ -1,6 +1,4 @@
 import type { CollectionConfig, Config, Field } from 'payload'
-import { getSupportedLanguagesHandler } from './endpoints/getSupportedLanguages.js'
-import { translateDocumentHandler } from './endpoints/translateDocument.js'
 import { translateBulkHandler } from './endpoints/translateBulk.js'
 
 const AutoTranslateAllButton = 'ai-localization/client#AutoTranslateAllButton'
@@ -42,7 +40,9 @@ export const aiLocalization =
 
     // Check if localization is enabled in the main config
     if (!config.localization) {
-      throw new Error('AI Localization plugin requires Payload localization to be enabled in your config.')
+      throw new Error(
+        'AI Localization plugin requires Payload localization to be enabled in your config.',
+      )
     }
 
     const newConfig: Config = {
@@ -85,20 +85,10 @@ export const aiLocalization =
     if (!newConfig.endpoints) newConfig.endpoints = []
     newConfig.endpoints.push(
       {
-        path: '/ai-localization/translate',
-        method: 'post',
-        handler: translateDocumentHandler(pluginOptions),
-      },
-      {
         path: '/ai-localization/translate-bulk',
         method: 'post',
         handler: translateBulkHandler(pluginOptions),
-      },
-      {
-        path: '/ai-localization/supported-languages',
-        method: 'get',
-        handler: getSupportedLanguagesHandler(),
-      },
+      }
     )
 
     return newConfig

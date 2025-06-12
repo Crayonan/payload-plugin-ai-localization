@@ -2,6 +2,7 @@ import type { PayloadHandler } from 'payload'
 import { z } from 'zod'
 import OpenAI from 'openai'
 import type { AiLocalizationConfig } from '../index.js'
+import { getLanguageName } from '../helpers/languageHelpers.js'
 
 const translateBulkRequestSchema = z.object({
   docId: z.string(),
@@ -22,12 +23,16 @@ export const translateBulkHandler =
         requestBody = req.body
       }
 
-      const { docId, collection, sourceLocale, targetLocale } = translateBulkRequestSchema.parse(requestBody)
+      const { docId, collection, sourceLocale, targetLocale } =
+        translateBulkRequestSchema.parse(requestBody)
 
       // Get the collection configuration to find which fields to translate
       const collectionConfig = pluginOptions.collections[collection]
       if (!collectionConfig) {
-        return Response.json({ error: `Collection '${collection}' not configured for translation` }, { status: 400 })
+        return Response.json(
+          { error: `Collection '${collection}' not configured for translation` },
+          { status: 400 },
+        )
       }
 
       // Initialize OpenAI
@@ -53,8 +58,10 @@ export const translateBulkHandler =
       }
 
       // Find fields that are both configured for translation AND have localized: true
-      const fieldsToTranslate = collectionConfig.fields.filter(fieldName => {
-        const field = payloadCollection.config.fields.find(f => 'name' in f && f.name === fieldName)
+      const fieldsToTranslate = collectionConfig.fields.filter((fieldName) => {
+        const field = payloadCollection.config.fields.find(
+          (f) => 'name' in f && f.name === fieldName,
+        )
         return field && 'localized' in field && field.localized === true
       })
 
@@ -108,7 +115,8 @@ ${contentEntries}`
         messages: [
           {
             role: 'system',
-            content: 'You are a professional translator. Translate content accurately while preserving formatting and structure. Return the translated content in the same format as provided.',
+            content:
+              'You are a professional translator. Translate content accurately while preserving formatting and structure. Return the translated content in the same format as provided.',
           },
           {
             role: 'user',
@@ -126,13 +134,13 @@ ${contentEntries}`
       // Parse the bulk translated content
       const translatedFields: { [fieldName: string]: any } = {}
       const lines = translatedContent.split('\n\n')
-      
+
       for (const line of lines) {
         const colonIndex = line.indexOf(': ')
         if (colonIndex > 0) {
           const fieldName = line.substring(0, colonIndex).trim()
           const translatedText = line.substring(colonIndex + 2).trim()
-          
+
           if (fieldsWithContent.includes(fieldName)) {
             // Try to parse as JSON first (for rich text fields)
             try {
@@ -155,40 +163,25 @@ ${contentEntries}`
 
       return Response.json({
         success: true,
-        message: `Successfully translated ${Object.keys(translatedFields).length} field(s) from ${sourceLanguageName} to ${targetLanguageName}`,
+        message: `Successfully translated ${
+          Object.keys(translatedFields).length
+        } field(s) from ${sourceLanguageName} to ${targetLanguageName}`,
         translatedFields: Object.keys(translatedFields),
         translatedContent: translatedFields,
       })
     } catch (error) {
       console.error('Bulk translation error:', error)
-      
+
       if (error instanceof z.ZodError) {
         return Response.json({ error: 'Invalid request data', details: error.errors }, { status: 400 })
       }
-      
-      return Response.json({ 
-        error: error instanceof Error ? error.message : 'An unknown error occurred during translation' 
-      }, { status: 500 })
-    }
-  }
 
-// Helper function to get language names
-function getLanguageName(locale: string): string {
-  const languageNames: Record<string, string> = {
-    en: 'English',
-    de: 'German',
-    fr: 'French',
-    es: 'Spanish',
-    it: 'Italian',
-    pt: 'Portuguese',
-    nl: 'Dutch',
-    ru: 'Russian',
-    ja: 'Japanese',
-    ko: 'Korean',
-    zh: 'Chinese',
-    ar: 'Arabic',
-    hi: 'Hindi',
-  }
-  
-  return languageNames[locale] || locale.toUpperCase()
-} 
+      return Response.json(
+        {
+          error:
+            error instanceof Error ? error.message : 'An unknown error occurred during translation',
+        },
+        { status: 500 },
+      )
+    }
+  } 
