@@ -1,28 +1,28 @@
 {
   "name": "payload-plugin-ai-localization",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AI-powered localization plugin for Payload CMS using OpenAI",
   "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./src/exports/index.ts",
-      "types": "./src/exports/index.ts",
-      "default": "./src/exports/index.ts"
+      "import": "./dist/exports/index.js",
+      "types": "./dist/exports/index.d.ts",
+      "default": "./dist/exports/index.js"
     },
     "./client": {
-      "import": "./src/exports/client.ts",
-      "types": "./src/exports/client.ts",
-      "default": "./src/exports/client.ts"
+      "import": "./dist/exports/client.js",
+      "types": "./dist/exports/client.d.ts",
+      "default": "./dist/exports/client.js"
     },
     "./rsc": {
-      "import": "./src/exports/rsc.ts",
-      "types": "./src/exports/rsc.ts",
-      "default": "./src/exports/rsc.ts"
+      "import": "./dist/exports/rsc.js",
+      "types": "./dist/exports/rsc.d.ts",
+      "default": "./dist/exports/rsc.js"
     }
   },
-  "main": "./src/exports/index.ts",
-  "types": "./src/exports/index.ts",
+  "main": "./dist/exports/index.js",
+  "types": "./dist/exports/index.d.ts",
   "files": [
     "dist"
   ],
@@ -39,9 +39,9 @@
     "lint": "eslint",
     "lint:fix": "eslint ./src --fix",
     "prepublishOnly": "pnpm clean && pnpm build",
-    "test": "pnpm test:int && pnpm test:e2e",
-    "test:e2e": "playwright test",
-    "test:int": "vitest"
+    "test": "pnpm test:int",
+    "test:e2e": "NODE_ENV=development playwright test",
+    "test:int": "NODE_ENV=test vitest run"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -89,31 +89,29 @@
     "node": "^18.20.2 || >=20.9.0",
     "pnpm": "^9 || ^10"
   },
-  "publishConfig": {
-    "exports": {
-      ".": {
-        "import": "./dist/exports/index.js",
-        "types": "./dist/exports/index.d.ts",
-        "default": "./dist/exports/index.js"
-      },
-      "./client": {
-        "import": "./dist/exports/client.js",
-        "types": "./dist/exports/client.d.ts",
-        "default": "./dist/exports/client.js"
-      },
-      "./rsc": {
-        "import": "./dist/exports/rsc.js",
-        "types": "./dist/exports/rsc.d.ts",
-        "default": "./dist/exports/rsc.js"
-      }
-    },
-    "main": "./dist/exports/index.js",
-    "types": "./dist/exports/index.d.ts"
-  },
   "pnpm": {
     "onlyBuiltDependencies": [
       "sharp"
     ]
   },
-  "registry": "https://registry.npmjs.org/"
+  "registry": "https://registry.npmjs.org/",
+  "keywords": [
+    "payload",
+    "payloadcms",
+    "plugin",
+    "ai",
+    "localization",
+    "translation",
+    "openai",
+    "payload-plugin"
+  ],
+  "author": "Crayonan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Crayonan/payload-plugin-ai-localization.git"
+  },
+  "homepage": "https://github.com/Crayonan/payload-plugin-ai-localization#readme",
+  "bugs": {
+    "url": "https://github.com/Crayonan/payload-plugin-ai-localization/issues"
+  }
 }
