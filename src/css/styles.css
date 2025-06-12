@@ -1,0 +1,10 @@
+/* AI Localization Plugin Styles */
+
+.auto-translate-all-button {
+  width: 100% !important;
+  margin-bottom: 8px;
+}
+
+.auto-translate-all-button:hover {
+  opacity: 0.9;
+} 
