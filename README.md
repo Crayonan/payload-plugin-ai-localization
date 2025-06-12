@@ -34,7 +34,7 @@ export default buildConfig({
     aiLocalization({
       openai: {
         apiKey: process.env.OPENAI_API_KEY, // Your OpenAI API key
-        model: 'gpt-4.1-nano', // Optional: specify the model (defaults to gpt-3.5-turbo)
+        model: 'gpt-4.1-nano', // Optional: specify the model (defaults to gpt-4.1-nano)
       },
       collections: {
         posts: {
