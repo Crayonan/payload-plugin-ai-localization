@@ -111,7 +111,7 @@ ${contentEntries}`
 
       // Call OpenAI API for bulk translation
       const completion = await openai.chat.completions.create({
-        model: pluginOptions.openai.model || 'gpt-3.5-turbo',
+        model: pluginOptions.openai.model || 'gpt-4.1-nano',
         messages: [
           {
             role: 'system',

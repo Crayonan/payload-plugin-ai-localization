@@ -34,7 +34,7 @@ export default buildConfig({
     aiLocalization({
       openai: {
         apiKey: process.env.OPENAI_API_KEY, // Your OpenAI API key
-        model: 'gpt-3.5-turbo', // Optional: specify the model (defaults to gpt-3.5-turbo)
+        model: 'gpt-4.1-nano', // Optional: specify the model (defaults to gpt-3.5-turbo)
       },
       collections: {
         posts: {
@@ -58,7 +58,7 @@ export default buildConfig({
 
 ## Environment Variables
 
-Make sure to set your OpenAI API key:
+Make sure to set your OpenAI API key in your environment variables of PayloadCMS:
 
 ```bash
 OPENAI_API_KEY=your_openai_api_key_here
@@ -83,8 +83,7 @@ The plugin integrates with Payload's native localization system by:
 
 The plugin adds these endpoints to your Payload app:
 
-- `GET /api/ai-localization/supported-languages` - Returns configured locales
-- `POST /api/ai-localization/translate` - Translates content between locales
+- `POST /api/ai-localization/translate-bulk` - Translates content between locales
 
 ## License
 
